@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="aliyun_player_loop_play">Loop</string>
+    <string name="aliyun_player_mute">Mute</string>
+    <string name="aliyun_player_accurate_seek">AccurateSeek</string>
+    <string name="aliyun_player_speed">Speed</string>
+    <string name="aliyun_player_volume">Volume:%1$.1f</string>
+
+    <string name="aliyun_player_scale_mode">ScaleMode</string>
+    <string name="aliyun_player_mirror_mode">MirrorMode</string>
+    <string name="aliyun_player_rotate_mode">RotateMode</string>
+</resources>

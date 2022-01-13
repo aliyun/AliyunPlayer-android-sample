@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_scale_mode">
+        <item>SCALE_ASPECT_FIT</item>
+        <item>SCALE_ASPECT_FILL</item>
+        <item>SCALE_TO_FILL</item>
+    </string-array>
+    
+    <string-array name="spinner_mirror_mode">
+        <item>MIRROR_NONE</item>
+        <item>MIRROR_HORIZONTAL</item>
+        <item>MIRROR_VERTICAL</item>
+    </string-array>
+
+    <string-array name="spinner_rotate_mode">
+        <item>ROTATE_0</item>
+        <item>ROTATE_90</item>
+        <item>ROTATE_180</item>
+        <item>ROTATE_270</item>
+    </string-array>
+
+    <string-array name="spinner_speed">
+        <item>NORMAL</item>
+        <item>0.5</item>
+        <item>1.5</item>
+        <item>2.0</item>
+        <item>5.0</item>
+    </string-array>
+</resources>

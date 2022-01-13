@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BackgroundPlay</string>
+
+    <string name="aliyun_player_enable_background_play">BackgroundPlay</string>
+</resources>

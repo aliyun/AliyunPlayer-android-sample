@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_max_delay_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.aliyun.playerconfig.view.MyAppCompatEditText
+                    android:id="@+id/et_max_delay_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:maxLength="15"
+                    android:hint="@string/aliyun_player_config_maxDelayTime" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_max_probe_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toEndOf="@id/layout_max_delay_time"
+                app:layout_constraintStart_toStartOf="@id/layout_max_delay_time"
+                app:layout_constraintTop_toBottomOf="@id/layout_max_delay_time">
+
+                <com.aliyun.playerconfig.view.MyAppCompatEditText
+                    android:id="@+id/et_max_probe_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:maxLength="15"
+                    android:hint="@string/aliyun_player_config_maxProbeSize" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_max_buffer_duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toEndOf="@id/layout_max_delay_time"
+                app:layout_constraintStart_toStartOf="@id/layout_max_delay_time"
+                app:layout_constraintTop_toBottomOf="@id/layout_max_probe_size">
+
+                <com.aliyun.playerconfig.view.MyAppCompatEditText
+                    android:id="@+id/et_max_buffer_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:maxLength="15"
+                    android:hint="@string/aliyun_player_config_maxBufferDuration" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_high_buffer_duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toEndOf="@id/layout_max_delay_time"
+                app:layout_constraintStart_toStartOf="@id/layout_max_delay_time"
+                app:layout_constraintTop_toBottomOf="@id/layout_max_buffer_duration">
+
+                <com.aliyun.playerconfig.view.MyAppCompatEditText
+                    android:id="@+id/et_high_buffer_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:maxLength="15"
+                    android:hint="@string/aliyun_player_config_highBufferDuration" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_start_buffer_duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toEndOf="@id/layout_max_delay_time"
+                app:layout_constraintStart_toStartOf="@id/layout_max_delay_time"
+                app:layout_constraintTop_toBottomOf="@id/layout_high_buffer_duration">
+
+                <com.aliyun.playerconfig.view.MyAppCompatEditText
+                    android:id="@+id/et_start_buffer_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:maxLength="15"
+                    android:hint="@string/aliyun_player_config_startBufferDuration" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_position_timer_interval"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="@id/layout_max_delay_time"
+                app:layout_constraintStart_toStartOf="@id/layout_max_delay_time"
+                app:layout_constraintTop_toBottomOf="@id/layout_start_buffer_duration">
+
+                <com.aliyun.playerconfig.view.MyAppCompatEditText
+                    android:id="@+id/et_position_timer_interval_ms"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:maxLength="15"
+                    android:hint="@string/aliyun_player_config_positionTimerIntervalMs" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_max_backward_buffer_duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toEndOf="@id/layout_max_delay_time"
+                app:layout_constraintStart_toStartOf="@id/layout_max_delay_time"
+                app:layout_constraintTop_toBottomOf="@id/layout_position_timer_interval">
+
+                <com.aliyun.playerconfig.view.MyAppCompatEditText
+                    android:id="@+id/et_max_backward_buffer_duration_ms"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:maxLength="15"
+                    android:hint="@string/aliyun_player_config_maxBackwardBufferDurationMs" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_network_timeout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="@id/layout_max_delay_time"
+                app:layout_constraintStart_toStartOf="@id/layout_max_delay_time"
+                app:layout_constraintTop_toBottomOf="@id/layout_max_backward_buffer_duration">
+
+                <com.aliyun.playerconfig.view.MyAppCompatEditText
+                    android:id="@+id/et_network_timeout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:maxLength="15"
+                    android:hint="@string/aliyun_player_config_network_timeout" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_network_retry_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toEndOf="@id/layout_max_delay_time"
+                app:layout_constraintStart_toStartOf="@id/layout_max_delay_time"
+                app:layout_constraintTop_toBottomOf="@id/layout_network_timeout">
+
+                <com.aliyun.playerconfig.view.MyAppCompatEditText
+                    android:id="@+id/et_network_retry_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:maxLength="15"
+                    android:hint="@string/aliyun_player_config_network_retry_count" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_user_agent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="@id/layout_max_delay_time"
+                app:layout_constraintStart_toStartOf="@id/layout_max_delay_time"
+                app:layout_constraintTop_toBottomOf="@id/layout_network_retry_count">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_user_agent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:maxLines="1"
+                    android:hint="@string/aliyun_player_config_user_agent"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_referrer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toEndOf="@id/layout_max_delay_time"
+                app:layout_constraintStart_toStartOf="@id/layout_max_delay_time"
+                app:layout_constraintTop_toBottomOf="@id/layout_user_agent">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_referrer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:maxLines="1"
+                    android:hint="@string/aliyun_player_config_referrer"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Switch
+                android:id="@+id/switch_disable_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/aliyun_player_config_disable_video"
+                app:layout_constraintStart_toStartOf="@id/layout_max_delay_time"
+                app:layout_constraintTop_toBottomOf="@id/layout_referrer"/>
+
+            <Switch
+                android:id="@+id/switch_disable_audio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:text="@string/aliyun_player_config_disable_audio"
+                app:layout_constraintEnd_toEndOf="@id/layout_max_delay_time"
+                app:layout_constraintTop_toBottomOf="@id/layout_referrer"/>
+
+            <Switch
+                android:id="@+id/switch_enable_sei"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/aliyun_player_config_enable_sei"
+                app:layout_constraintStart_toStartOf="@id/layout_max_delay_time"
+                app:layout_constraintTop_toBottomOf="@id/switch_disable_video"/>
+
+            <Switch
+                android:id="@+id/switch_clear_frame_when_stop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:text="@string/aliyun_player_config_clear_frame_when_stop"
+                app:layout_constraintEnd_toEndOf="@id/layout_max_delay_time"
+                app:layout_constraintTop_toBottomOf="@id/switch_disable_video"/>
+
+            <Switch
+                android:id="@+id/switch_enable_video_tunnelrender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/aliyun_player_config_enable_video_tunnelrender"
+                app:layout_constraintStart_toStartOf="@id/layout_max_delay_time"
+                app:layout_constraintTop_toBottomOf="@id/switch_enable_sei"/>
+
+            <Button
+                android:id="@+id/btn_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="50dp"
+                android:text="@string/aliyun_player_config_play"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/switch_enable_video_tunnelrender"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</FrameLayout>

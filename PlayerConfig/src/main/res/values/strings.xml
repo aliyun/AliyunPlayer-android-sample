@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">PlayerConfig</string>
+
+    <string name="aliyun_player_cofig_stop">Stop</string>
+    <string name="aliyun_player_config_play">Play</string>
+    <string name="aliyun_player_cofig_prepare">Prepare</string>
+    <string name="aliyun_player_config_buffer_position">Buffer:%1$s</string>
+
+    <string name="aliyun_player_config_maxDelayTime">MaxDelayTime</string>
+    <string name="aliyun_player_config_maxProbeSize">MaxProbeSize</string>
+    <string name="aliyun_player_config_maxBufferDuration">MaxBufferDuration</string>
+    <string name="aliyun_player_config_highBufferDuration">HighBufferDuration</string>
+    <string name="aliyun_player_config_startBufferDuration">StartBufferDuration</string>
+
+    <string name="aliyun_player_config_positionTimerIntervalMs">PositionTimerIntervalMs</string>
+    <string name="aliyun_player_config_maxBackwardBufferDurationMs">MaxBackwardBufferDurationMs</string>
+
+    <string name="aliyun_player_config_user_agent">UserAgent</string>
+    <string name="aliyun_player_config_referrer">Referrer</string>
+
+    <string name="aliyun_player_config_network_timeout">NetworkTimeout</string>
+    <string name="aliyun_player_config_network_retry_count">NetworkRetryCount</string>
+
+    <string name="aliyun_player_config_disable_video">DisableVideo</string>
+    <string name="aliyun_player_config_disable_audio">DisableAudio</string>
+
+    <string name="aliyun_player_config_enable_sei">EnableSEI</string>
+    <string name="aliyun_player_config_clear_frame_when_stop">mClearFrameWhenStop</string>
+    <string name="aliyun_player_config_enable_video_tunnelrender">EnableVideoTunnelRender</string>
+
+
+</resources>

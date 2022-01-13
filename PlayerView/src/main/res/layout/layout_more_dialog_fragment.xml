@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_line_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="80dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_line_operator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="250dp" />
+
+    <TextView
+        android:id="@+id/tv_loop_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:textColor="@android:color/white"
+        android:text="@string/aliyun_player_loop_play"
+        app:layout_constraintEnd_toStartOf="@+id/guide_line_name"
+        app:layout_constraintStart_toStartOf="@+id/guide_line_name"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/switch_loop_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_loop_play"
+        app:layout_constraintEnd_toStartOf="@+id/guide_line_operator"
+        app:layout_constraintStart_toStartOf="@+id/guide_line_operator"
+        app:layout_constraintTop_toTopOf="@+id/tv_loop_play" />
+
+    <TextView
+        android:id="@+id/tv_mute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:textColor="@android:color/white"
+        android:text="@string/aliyun_player_mute"
+        app:layout_constraintEnd_toStartOf="@+id/guide_line_name"
+        app:layout_constraintStart_toStartOf="@+id/guide_line_name"
+        app:layout_constraintTop_toTopOf="@id/tv_loop_play" />
+
+    <Switch
+        android:id="@+id/switch_mute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_mute"
+        app:layout_constraintEnd_toStartOf="@+id/guide_line_operator"
+        app:layout_constraintStart_toStartOf="@+id/guide_line_operator"
+        app:layout_constraintTop_toTopOf="@+id/tv_mute" />
+
+    <TextView
+        android:id="@+id/tv_accurate_seek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:textColor="@android:color/white"
+        android:text="@string/aliyun_player_accurate_seek"
+        app:layout_constraintEnd_toStartOf="@+id/guide_line_name"
+        app:layout_constraintStart_toStartOf="@+id/guide_line_name"
+        app:layout_constraintTop_toTopOf="@id/switch_mute" />
+
+    <Switch
+        android:id="@+id/switch_accurate_seek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_accurate_seek"
+        app:layout_constraintEnd_toStartOf="@+id/guide_line_operator"
+        app:layout_constraintStart_toStartOf="@+id/guide_line_operator"
+        app:layout_constraintTop_toTopOf="@+id/tv_accurate_seek" />
+
+    <TextView
+        android:id="@+id/tv_scale_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:textColor="@android:color/white"
+        android:text="@string/aliyun_player_scale_mode"
+        app:layout_constraintEnd_toStartOf="@+id/guide_line_name"
+        app:layout_constraintStart_toStartOf="@+id/guide_line_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_accurate_seek" />
+
+    <Spinner
+        android:id="@+id/spinner_scale_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:entries="@array/spinner_scale_mode"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_scale_mode"
+        app:layout_constraintStart_toStartOf="@+id/guide_line_operator"
+        app:layout_constraintEnd_toStartOf="@id/guide_line_operator"
+        app:layout_constraintTop_toTopOf="@+id/tv_scale_mode" />
+
+    <TextView
+        android:id="@+id/tv_mirror_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:textColor="@android:color/white"
+        android:text="@string/aliyun_player_mirror_mode"
+        app:layout_constraintEnd_toStartOf="@+id/guide_line_name"
+        app:layout_constraintStart_toStartOf="@+id/guide_line_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_scale_mode" />
+
+    <Spinner
+        android:id="@+id/spinner_mirror_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/spinner_mirror_mode"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_mirror_mode"
+        app:layout_constraintStart_toStartOf="@+id/guide_line_operator"
+        app:layout_constraintEnd_toStartOf="@id/guide_line_operator"
+        app:layout_constraintTop_toTopOf="@+id/tv_mirror_mode" />
+
+    <TextView
+        android:id="@+id/tv_rotate_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:textColor="@android:color/white"
+        android:text="@string/aliyun_player_rotate_mode"
+        app:layout_constraintEnd_toStartOf="@+id/guide_line_name"
+        app:layout_constraintStart_toStartOf="@+id/guide_line_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mirror_mode" />
+
+    <Spinner
+        android:id="@+id/spinner_rotate_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:entries="@array/spinner_rotate_mode"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rotate_mode"
+        app:layout_constraintStart_toStartOf="@+id/guide_line_operator"
+        app:layout_constraintEnd_toStartOf="@id/guide_line_operator"
+        app:layout_constraintTop_toTopOf="@+id/tv_rotate_mode" />
+
+    <TextView
+        android:id="@+id/tv_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:textColor="@android:color/white"
+        android:text="@string/aliyun_player_speed"
+        app:layout_constraintEnd_toStartOf="@+id/guide_line_name"
+        app:layout_constraintStart_toStartOf="@+id/guide_line_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rotate_mode" />
+
+    <Spinner
+        android:id="@+id/spinner_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:entries="@array/spinner_speed"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_speed"
+        app:layout_constraintStart_toStartOf="@+id/guide_line_operator"
+        app:layout_constraintEnd_toStartOf="@id/guide_line_operator"
+        app:layout_constraintTop_toTopOf="@+id/tv_speed" />
+
+    <TextView
+        android:id="@+id/tv_volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:textColor="@android:color/white"
+        android:text="@string/aliyun_player_volume"
+        app:layout_constraintEnd_toStartOf="@+id/guide_line_name"
+        app:layout_constraintStart_toStartOf="@+id/guide_line_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_speed" />
+
+    <SeekBar
+        android:id="@+id/seekbar_volume"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:max="200"
+        android:progress="100"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_volume"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_volume"
+        app:layout_constraintTop_toTopOf="@+id/tv_volume" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

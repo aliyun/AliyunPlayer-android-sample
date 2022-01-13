@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Advert</string>
+
+    <string name="aliyun_player_btn_plan_a">Plan-A</string>
+    <string name="aliyun_player_btn_plan_b">Plan-B</string>
+</resources>

@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">MemoryPlay</string>
+
+    <string name="aliyun_player_memory_play">Play</string>
+    <string name="aliyun_player_enable_memory_play">EnableMemoryPlay</string>
+</resources>
