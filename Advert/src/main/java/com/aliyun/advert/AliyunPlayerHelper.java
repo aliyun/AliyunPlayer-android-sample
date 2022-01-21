@@ -1,6 +1,7 @@
 package com.aliyun.advert;
 
 import android.content.Context;
+import android.view.SurfaceHolder;
 
 import com.aliyun.advert.listener.CustomPlayerObserver;
 import com.aliyun.player.AliPlayer;
@@ -8,10 +9,16 @@ import com.aliyun.player.AliPlayerFactory;
 import com.aliyun.player.IPlayer;
 import com.aliyun.player.bean.ErrorInfo;
 import com.aliyun.player.bean.InfoBean;
+import com.aliyun.player.nativeclass.PlayerConfig;
 import com.aliyun.player.source.UrlSource;
 
 import java.lang.ref.WeakReference;
 
+/**
+ *  Create two players (AdvPlayer and SourcePlayer)
+ *  AdvPlayer play the BeginningVideo and EndingVideo
+ *  SourcePlayer play the FeatureVideo
+ */
 public class AliyunPlayerHelper {
 
     public static final String VIDEO_URL = "http://player.alicdn.com/video/aliyunmedia.mp4";
@@ -40,6 +47,12 @@ public class AliyunPlayerHelper {
         mAdvPlayer = AliPlayerFactory.createAliPlayer(context);
         mSourcePlayer = AliPlayerFactory.createAliPlayer(context);
 
+        //set AdvPlayer startBuffer
+        PlayerConfig config = mAdvPlayer.getConfig();
+        config.mStartBufferDuration = 200;
+        mAdvPlayer.setConfig(config);
+
+        //set DataSource
         UrlSource urlSource = new UrlSource();
         urlSource.setUri(ADV_URL);
         mAdvPlayer.setDataSource(urlSource);
@@ -48,6 +61,30 @@ public class AliyunPlayerHelper {
         mSourcePlayer.setDataSource(urlSource);
 
         initListener();
+    }
+
+    public void setAdvDisplay(SurfaceHolder surfaceHolder){
+        if(mAdvPlayer != null){
+            mAdvPlayer.setDisplay(surfaceHolder);
+        }
+    }
+
+    public void setSourceDisplay(SurfaceHolder surfaceHolder){
+        if(mSourcePlayer != null){
+            mSourcePlayer.setDisplay(surfaceHolder);
+        }
+    }
+
+    public void advSurfaceChanged(){
+        if(mAdvPlayer != null){
+            mAdvPlayer.surfaceChanged();
+        }
+    }
+
+    public void sourceSurfaceChanged(){
+        if(mSourcePlayer != null){
+            mSourcePlayer.surfaceChanged();
+        }
     }
 
     private void initListener(){
@@ -88,6 +125,18 @@ public class AliyunPlayerHelper {
         }
     }
 
+    public void pauseAdv(){
+        if(mAdvPlayer != null){
+            mAdvPlayer.pause();
+        }
+    }
+
+    public void pauseSource(){
+        if(mSourcePlayer != null){
+            mSourcePlayer.pause();
+        }
+    }
+
     public void stopAdv(){
         if(mAdvPlayer != null){
             mAdvPlayer.start();
@@ -100,12 +149,47 @@ public class AliyunPlayerHelper {
         }
     }
 
+    public long getAdvDuration(){
+        if(mAdvPlayer != null && mAdvPlayer.getMediaInfo() != null){
+            return mAdvPlayer.getMediaInfo().getDuration();
+        }
+        return 0;
+    }
+
+    public long getSourceDuration(){
+        if(mSourcePlayer!= null && mSourcePlayer.getMediaInfo() != null){
+            return mSourcePlayer.getMediaInfo().getDuration();
+        }
+        return 0;
+    }
+
+    public void seekToAdv(int progress) {
+        if(mAdvPlayer != null){
+            mAdvPlayer.seekTo(progress);
+        }
+    }
+
+    public void seekToSource(int progress) {
+        if(mSourcePlayer != null){
+            mSourcePlayer.seekTo(progress);
+        }
+    }
+
     public void setCustomPlayerObserver(CustomPlayerObserver customPlayerObserver){
         this.mCustomPlayerObserver = customPlayerObserver;
     }
 
     private boolean isAdvPlayer(AliPlayer aliplayer){
         return aliplayer == mAdvPlayer;
+    }
+
+    public void release() {
+        if(mAdvPlayer != null){
+            mAdvPlayer.release();
+        }
+        if(mSourcePlayer != null){
+            mSourcePlayer.release();
+        }
     }
 
     // =================== Player Listener ===================

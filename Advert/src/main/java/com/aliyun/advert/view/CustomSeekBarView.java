@@ -11,10 +11,11 @@ import androidx.annotation.Nullable;
 
 public class CustomSeekBarView extends androidx.appcompat.widget.AppCompatSeekBar {
 
-    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    {
-        mPaint.setColor(Color.RED);
-    }
+    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private float mRatio;
+    private int mViewWidth;
+    private float mBeginningX, mEndingX;
+    private int mPaddingLeft,mPaddingRight;
 
     public CustomSeekBarView(@NonNull Context context) {
         super(context);
@@ -28,9 +29,40 @@ public class CustomSeekBarView extends androidx.appcompat.widget.AppCompatSeekBa
         super(context, attrs, defStyleAttr);
     }
 
-    //canvas.drawLine(getWidth() * rect,0,getWidth() * rect,getHeight(),mPaint);
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        this.mViewWidth = getWidth();
+        this.mPaddingLeft = getPaddingLeft();
+        this.mPaddingRight = getPaddingRight();
+        calculateCoordinates();
+    }
+
     @Override
     protected synchronized void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        mPaint.setStrokeWidth(5.0f);
+        mPaint.setColor(Color.WHITE);
+        if(mBeginningX != 0 && mEndingX != 0){
+            //Beginning
+            canvas.drawLine(mBeginningX,0, mBeginningX,getHeight(),mPaint);
+            //ending
+            canvas.drawLine(mEndingX,0, mEndingX,getHeight(),mPaint);
+        }
+    }
+
+    /**
+     * max = (BeginningVideo Duration + EndingVideo Duration) + SourceVideo Duration
+     * @param splitLine BeginningVideo duration
+     */
+    public void setSplitLine(long splitLine) {
+        mRatio = splitLine * 1.0f / getMax();
+        calculateCoordinates();
+    }
+
+    private void calculateCoordinates(){
+        float splitLineX = (mViewWidth - mPaddingLeft - mPaddingRight) * mRatio;
+        mBeginningX = splitLineX + mPaddingLeft;
+        mEndingX = mViewWidth - mPaddingRight - splitLineX;
     }
 }
