@@ -34,6 +34,7 @@ public class PlanAActivity extends AppCompatActivity implements IView {
         setContentView(R.layout.activity_plan_aactivity);
 
         mController = new PlanController(this);
+        mController.setAdvPosition(new int[]{0,50,100});
 
         initView();
         initListener();
@@ -69,14 +70,10 @@ public class PlanAActivity extends AppCompatActivity implements IView {
 
         mAdvSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-            }
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {}
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -86,14 +83,10 @@ public class PlanAActivity extends AppCompatActivity implements IView {
 
         mSourceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-            }
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) { }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {

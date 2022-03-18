@@ -1,24 +1,29 @@
 package com.aliyun.advert;
 
 import android.view.SurfaceHolder;
-
 import androidx.annotation.NonNull;
-
-import com.aliyun.advert.bean.PlayBackStatus;
 import com.aliyun.advert.listener.CustomPlayerObserver;
 import com.aliyun.player.bean.ErrorInfo;
 import com.aliyun.player.bean.InfoBean;
 import com.aliyun.player.bean.InfoCode;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class PlanController {
 
+    private static final int OFFSET = 500;
     private IView mPlanView;
     private AliyunPlayerHelper mAliyunPlayerHelper;
-    private PlayBackStatus mPlayBackStatus = PlayBackStatus.FREE;
     private SurfaceHolder mSurfaceHolder;
 
+    private int mAdvPosition = 0;
     private long mAdvDuration = 0;
     private long mSourceDuration = 0;
+    private boolean mPlayingAdv = false;
+    private long mCurrentSourcePosition = 0;
+    private final List<Integer> mAdvPositionList = new ArrayList<>();
 
     public PlanController(@NonNull IView iView) {
         mPlanView = iView;
@@ -31,64 +36,63 @@ public class PlanController {
         mAliyunPlayerHelper.setCustomPlayerObserver(new CustomPlayerObserver() {
             @Override
             public void onAdvPrepared() {
-                if (mPlanView instanceof PlanAActivity) {
-                    if (mPlayBackStatus == PlayBackStatus.FREE) {
-                        mPlayBackStatus = PlayBackStatus.ADV;
-                        startAdvVideo();
-                    }
-                } else {
-                    if (mAdvDuration == 0) {
-                        mAdvDuration = mAliyunPlayerHelper.getAdvDuration();
-                        mPlanView.setAdvDuration(mAdvDuration);
-                        planBCalculationDuration();
-                    }
+                if (mAdvDuration == 0) {
+                    mAdvDuration = mAliyunPlayerHelper.getAdvDuration();
+                    mPlanView.setAdvDuration(mAdvDuration);
+                    intentPlay();
                 }
             }
 
             @Override
             public void onSourcePrepared() {
-                if (mPlanView instanceof PlanBActivity) {
-                    if (mSourceDuration == 0) {
-                        mSourceDuration = mAliyunPlayerHelper.getSourceDuration();
-                        mPlanView.setSourceDuration(mSourceDuration);
-                        planBCalculationDuration();
-                    }
+                if (mSourceDuration == 0) {
+                    mSourceDuration = mAliyunPlayerHelper.getSourceDuration();
+                    mPlanView.setSourceDuration(mSourceDuration);
+                    intentPlay();
                 }
             }
 
             @Override
-            public void onAdvRenderingStart() {
-                if (mPlanView instanceof PlanAActivity) {
-                    mAliyunPlayerHelper.prepareSource();
-                }
-            }
+            public void onAdvRenderingStart() { }
 
             @Override
-            public void onSourceRenderingStart() {
-                mAliyunPlayerHelper.prepareAdv();
-            }
+            public void onSourceRenderingStart() { }
 
             @Override
             public void onAdvInfo(InfoBean infoBean) {
                 if (infoBean.getCode() == InfoCode.CurrentPosition) {
                     long progress = infoBean.getExtraValue();
+                    //fix seekBar bounce
+                    if(mAdvPosition > 0 && progress == 0){
+                        return ;
+                    }
                     if (mPlanView instanceof PlanBActivity) {
-                        if (mPlayBackStatus == PlayBackStatus.ENDING_ADV) {
-                            progress = mAdvDuration + mSourceDuration + infoBean.getExtraValue();
-                        }
+                        progress = progress + (mAdvDuration * mAdvPosition) + mCurrentSourcePosition;
                     }
                     mPlanView.setAdvSeekBarProgress(progress);
                 } else if (infoBean.getCode() == InfoCode.BufferedPosition) {
                     if (mPlanView instanceof PlanAActivity) {
                         mPlanView.setAdvSeekBarSecondProgress(infoBean.getExtraValue());
                     }
+                } else if (infoBean.getCode() == InfoCode.LoopingStart) {
+                    mAdvPosition++;
+                    startSourceVideo();
                 }
             }
 
             @Override
             public void onSourceInfo(InfoBean infoBean) {
                 if (infoBean.getCode() == InfoCode.CurrentPosition) {
-                    mPlanView.setSourceSeekBarProgress(mPlanView instanceof PlanBActivity ? (mAdvDuration + infoBean.getExtraValue()) : infoBean.getExtraValue());
+                    mCurrentSourcePosition = infoBean.getExtraValue();
+                    mPlanView.setSourceSeekBarProgress(mPlanView instanceof PlanBActivity ? (mAdvDuration * mAdvPosition + mCurrentSourcePosition) : mCurrentSourcePosition);
+                    //play advVideo
+                    if(mAdvPosition < mAdvPositionList.size()){
+                        Integer percent = mAdvPositionList.get(mAdvPosition);
+                        long durationPercent = mSourceDuration * percent / 100;
+                        if(mCurrentSourcePosition > (durationPercent - OFFSET) && mCurrentSourcePosition < (durationPercent + OFFSET)){
+                            startAdvVideo();
+                        }
+                    }
                 } else if (infoBean.getCode() == InfoCode.BufferedPosition) {
                     if (mPlanView instanceof PlanAActivity) {
                         mPlanView.setSourceSeekBarSecondProgress(infoBean.getExtraValue());
@@ -97,83 +101,97 @@ public class PlanController {
             }
 
             @Override
-            public void onAdvCompletion() {
-                if (mPlayBackStatus != PlayBackStatus.ENDING_ADV) {
-                    mPlayBackStatus = PlayBackStatus.SOURCE;
-                    startSourceVideo();
-                }
-            }
+            public void onAdvCompletion() { }
 
             @Override
-            public void onSourceCompletion() {
-                mPlayBackStatus = PlayBackStatus.ENDING_ADV;
-                startAdvVideo();
-            }
+            public void onSourceCompletion() { }
 
             @Override
-            public void onAdvError(ErrorInfo errorInfo) {
-            }
+            public void onSourceSeekComplete() { }
 
             @Override
-            public void onSourceError(ErrorInfo errorInfo) {
-            }
+            public void onAdvError(ErrorInfo errorInfo) { }
+
+            @Override
+            public void onSourceError(ErrorInfo errorInfo) { }
         });
-        if (mPlanView instanceof PlanBActivity) {
-            mAliyunPlayerHelper.prepareSource();
-        }
         mAliyunPlayerHelper.prepareAdv();
+        mAliyunPlayerHelper.prepareSource();
     }
 
     /**
-     * plan-B，Total Duration = BeginningDuration * 2 + SourceDuration。
-     * The Duration can only be obtained after {Player.OnPrepared()}
+     * insert position
+     *
+     * @param positionArray percentage
      */
-    private void planBCalculationDuration() {
-        if (mAdvDuration == 0 || mSourceDuration == 0) {
-            return;
+    public void setAdvPosition(int[] positionArray) {
+        int[] new_array = new int[positionArray.length];
+        System.arraycopy(positionArray,0,new_array,0,positionArray.length);
+        Arrays.sort(new_array);
+        for (int i : new_array) {
+            mAdvPositionList.add(i);
         }
-        if (mPlayBackStatus == PlayBackStatus.FREE) {
-            mPlayBackStatus = PlayBackStatus.ADV;
+    }
+
+    private void intentPlay(){
+        if(mSourceDuration == 0 || mAdvDuration == 0){
+            return ;
+        }
+
+        /*
+         * plan-B，Total Duration = BeginningDuration * n + SourceDuration。
+         * The Duration can only be obtained after {Player.OnPrepared()}
+         */
+        if(mPlanView instanceof PlanBActivity){
+            long totalDuration = mAdvDuration * mAdvPositionList.size() + mSourceDuration;
+            ((PlanBActivity) mPlanView).setTotalDuration(totalDuration);
+        }
+
+        if(!mAdvPositionList.isEmpty() && mAdvPositionList.get(0) == 0){
             startAdvVideo();
+        }else{
+            startSourceVideo();
         }
-        long totalDuration = mAdvDuration * 2 + mSourceDuration;
-        ((PlanBActivity)mPlanView).setTotalDuration(totalDuration);
     }
 
     private void startAdvVideo() {
+        mAliyunPlayerHelper.pauseSource();
         if (mPlanView instanceof PlanAActivity) {
             mPlanView.setAdvDuration(mAliyunPlayerHelper.getAdvDuration());
         }
         setSurfaceHolder(null, mSurfaceHolder);
         mAliyunPlayerHelper.startAdv();
+        mPlayingAdv = true;
     }
 
     private void startSourceVideo() {
+        mAliyunPlayerHelper.pauseAdv();
         if (mPlanView instanceof PlanAActivity) {
             mPlanView.setSourceDuration(mAliyunPlayerHelper.getSourceDuration());
         }
         setSurfaceHolder(mSurfaceHolder, null);
         mAliyunPlayerHelper.startSource();
+        mPlayingAdv = false;
     }
 
-    /**
-     * seek
-     * 0 ~ Beginning Duration : invoke AdvPlayer.seekTo()
-     * Beginning duration ~ Source Duration + Beginning Duration : invoke SourcePlayer.seekTo()
-     * Source Duration + Beginning Duration ~ Ending ： invoke AdvPlayer.seekTo()
-     */
     public void seekTo(int progress) {
-        if (progress < mAdvDuration) {
-            if(mPlayBackStatus == PlayBackStatus.ADV){
+        if(mPlayingAdv){
+            if(mPlanView instanceof PlanAActivity){
                 seekAdvTo(progress);
             }
-        } else if (progress > mAdvDuration && progress < mAdvDuration + mSourceDuration) {
-            if(mPlayBackStatus == PlayBackStatus.SOURCE){
-                seekSourceTo((int) (progress - mAdvDuration));
-            }
-        } else {
-            if(mPlayBackStatus == PlayBackStatus.ENDING_ADV){
-                seekAdvTo((int) (progress - mSourceDuration - mAdvDuration));
+        }else{
+            if(mPlanView instanceof PlanAActivity){
+                seekSourceTo(progress);
+            }else{
+                for(int i = 0,j = mAdvPositionList.size() - 1;i < mAdvPositionList.size(); i++,j--){
+                    //calculate the progress of each ADV position
+                    float minResult = mSourceDuration * mAdvPositionList.get(i) / 100.0f + mAdvDuration * i;
+                    if(progress < minResult){
+                        mAdvPosition = i;
+                        break;
+                    }
+                }
+                seekSourceTo((int) (progress - mAdvDuration * mAdvPosition));
             }
         }
     }
@@ -188,7 +206,7 @@ public class PlanController {
 
     public void surfaceCreated(SurfaceHolder holder) {
         this.mSurfaceHolder = holder;
-        if (mPlayBackStatus == PlayBackStatus.ADV || mPlayBackStatus == PlayBackStatus.ENDING_ADV || mPlayBackStatus == PlayBackStatus.FREE) {
+        if (mPlayingAdv) {
             setSurfaceHolder(null, holder);
         } else {
             setSurfaceHolder(holder, null);
@@ -196,10 +214,10 @@ public class PlanController {
     }
 
     public void surfaceChanged() {
-        if (mPlayBackStatus == PlayBackStatus.SOURCE) {
-            mAliyunPlayerHelper.sourceSurfaceChanged();
-        } else if (mPlayBackStatus == PlayBackStatus.ADV || mPlayBackStatus == PlayBackStatus.ENDING_ADV) {
+        if (mPlayingAdv) {
             mAliyunPlayerHelper.advSurfaceChanged();
+        } else{
+            mAliyunPlayerHelper.sourceSurfaceChanged();
         }
     }
 
@@ -219,17 +237,17 @@ public class PlanController {
     }
 
     public void onStart() {
-        if(mPlayBackStatus == PlayBackStatus.ADV || mPlayBackStatus == PlayBackStatus.ENDING_ADV){
+        if (mPlayingAdv) {
             mAliyunPlayerHelper.startAdv();
-        }else if(mPlayBackStatus == PlayBackStatus.SOURCE){
+        } else {
             mAliyunPlayerHelper.startSource();
         }
     }
 
     public void onPause() {
-        if(mPlayBackStatus == PlayBackStatus.ADV || mPlayBackStatus == PlayBackStatus.ENDING_ADV){
+        if (mPlayingAdv) {
             mAliyunPlayerHelper.pauseAdv();
-        }else if(mPlayBackStatus == PlayBackStatus.SOURCE){
+        } else {
             mAliyunPlayerHelper.pauseSource();
         }
     }
@@ -237,5 +255,10 @@ public class PlanController {
     public void release() {
         mPlanView = null;
         mAliyunPlayerHelper.release();
+        mAdvPosition = 0;
+        mAdvDuration = 0;
+        mSourceDuration = 0;
+        mCurrentSourcePosition = 0;
+        mAdvPositionList.clear();
     }
 }

@@ -1,6 +1,7 @@
 package com.aliyun.advert;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 
 import android.content.Intent;
 import android.os.Bundle;

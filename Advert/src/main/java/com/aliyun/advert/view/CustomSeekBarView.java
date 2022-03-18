@@ -9,13 +9,17 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.Arrays;
+
 public class CustomSeekBarView extends androidx.appcompat.widget.AppCompatSeekBar {
 
     private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private float mRatio;
     private int mViewWidth;
-    private float mBeginningX, mEndingX;
     private int mPaddingLeft,mPaddingRight;
+    private int[] mAdvPositionArr;
+    private float[] mLineStartX = new float[0];
+    private float mAdvRatio;
+    private float mAdvWith;
 
     public CustomSeekBarView(@NonNull Context context) {
         super(context);
@@ -35,34 +39,45 @@ public class CustomSeekBarView extends androidx.appcompat.widget.AppCompatSeekBa
         this.mViewWidth = getWidth();
         this.mPaddingLeft = getPaddingLeft();
         this.mPaddingRight = getPaddingRight();
+
+        mPaint.setStrokeWidth(2.0f);
+        mPaint.setColor(Color.WHITE);
+        mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         calculateCoordinates();
     }
 
     @Override
     protected synchronized void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        mPaint.setStrokeWidth(5.0f);
-        mPaint.setColor(Color.WHITE);
-        if(mBeginningX != 0 && mEndingX != 0){
-            //Beginning
-            canvas.drawLine(mBeginningX,0, mBeginningX,getHeight(),mPaint);
-            //ending
-            canvas.drawLine(mEndingX,0, mEndingX,getHeight(),mPaint);
+        for (float lineStartX : mLineStartX) {
+            canvas.drawRect(lineStartX, 0, lineStartX + mAdvWith, getHeight(), mPaint);
         }
+        super.onDraw(canvas);
     }
 
     /**
-     * max = (BeginningVideo Duration + EndingVideo Duration) + SourceVideo Duration
-     * @param splitLine BeginningVideo duration
+     * max = (AdvDuration Duration * n) + SourceVideo Duration
+     * @param advDuration Adv duration
      */
-    public void setSplitLine(long splitLine) {
-        mRatio = splitLine * 1.0f / getMax();
-        calculateCoordinates();
+    public void setAdvDuration(long advDuration) {
+        mAdvRatio = advDuration * 1.0f / getMax() * 1.0f;
     }
 
     private void calculateCoordinates(){
-        float splitLineX = (mViewWidth - mPaddingLeft - mPaddingRight) * mRatio;
-        mBeginningX = splitLineX + mPaddingLeft;
-        mEndingX = mViewWidth - mPaddingRight - splitLineX;
+        float realWidth = mViewWidth - mPaddingLeft - mPaddingRight;
+        mAdvWith = realWidth * mAdvRatio;
+        if(mAdvPositionArr != null){
+            int size = mAdvPositionArr.length;
+            for(int i = 0;i < mAdvPositionArr.length;i++){
+                mLineStartX[i] = mPaddingLeft + (realWidth - size * mAdvWith) * mAdvPositionArr[i] / 100f + (i * mAdvWith);
+            }
+        }
+    }
+
+    public void setPosition(int[] advPositionArr) {
+        this.mAdvPositionArr = advPositionArr;
+        this.mLineStartX = new float[mAdvPositionArr.length];
+        Arrays.sort(advPositionArr);
+        calculateCoordinates();
+        invalidate();
     }
 }

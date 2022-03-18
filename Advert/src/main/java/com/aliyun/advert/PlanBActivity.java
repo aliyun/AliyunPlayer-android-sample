@@ -29,6 +29,7 @@ public class PlanBActivity extends AppCompatActivity implements IView{
     private long mAdvDuration;
     //source duration
     private long mSourceDuration;
+    private final int[] mAdvPositionArr = new int[]{0,50,100};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class PlanBActivity extends AppCompatActivity implements IView{
         setContentView(R.layout.activity_plan_bactivity);
 
         mController = new PlanController(this);
+        mController.setAdvPosition(mAdvPositionArr);
 
         initView();
         initListener();
@@ -70,14 +72,10 @@ public class PlanBActivity extends AppCompatActivity implements IView{
 
         mCustomSeekBarView.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-            }
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) { }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -115,9 +113,7 @@ public class PlanBActivity extends AppCompatActivity implements IView{
     }
 
     @Override
-    public void setSourceDuration(long duration) {
-        this.mSourceDuration = duration;
-    }
+    public void setSourceDuration(long duration) { this.mSourceDuration = duration; }
 
     @Override
     public void showAdvError(int errorCode, String msg) {
@@ -132,7 +128,8 @@ public class PlanBActivity extends AppCompatActivity implements IView{
     public void setTotalDuration(long totalDuration){
         mDurationTextView.setText(TimeFormater.formatMs(totalDuration));
         mCustomSeekBarView.setMax((int) totalDuration);
-        mCustomSeekBarView.setSplitLine(mAdvDuration);
+        mCustomSeekBarView.setAdvDuration(mAdvDuration);
+        mCustomSeekBarView.setPosition(mAdvPositionArr);
     }
 
     @Override

@@ -11,7 +11,7 @@ ext {
     gson = 'com.google.code.gson:gson:2.8.9'
     okio = 'com.squareup.okio:okio:2.8.0'
     okhttp = 'com.squareup.okhttp3:okhttp:4.9.3'
-    aliyunPlayerFull = 'com.aliyun.sdk.android:AliyunPlayer:5.4.4.0-full'
-    aliyunPlayerPart = 'com.aliyun.sdk.android:AliyunPlayer:5.4.4.0-part'
-    aliyunFFmpeg = 'com.aliyun.video.android:AlivcFFmpeg:4.3.0'
+    aliyunPlayerFull = 'com.aliyun.sdk.android:AliyunPlayer:5.4.5.0-full'
+    aliyunPlayerPart = 'com.aliyun.sdk.android:AliyunPlayer:5.4.5.0-part'
+    aliyunFFmpeg = 'com.aliyun.video.android:AlivcFFmpeg:4.3.2'
 }
