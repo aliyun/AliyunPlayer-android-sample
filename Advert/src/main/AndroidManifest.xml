@@ -11,8 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AliyunPlayerSample">
-        <activity android:name=".PlanBActivity"></activity>
-        <activity android:name=".PlanAActivity" />
+        <activity android:name=".PlanBActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PlanAActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

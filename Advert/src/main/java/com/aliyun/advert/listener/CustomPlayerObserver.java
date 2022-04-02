@@ -21,6 +21,8 @@ public abstract class CustomPlayerObserver {
 
     public void onSourceCompletion(){}
 
+    public void onSourceSeekComplete(){}
+
     public void onAdvError(ErrorInfo errorInfo){}
 
     public void onSourceError(ErrorInfo errorInfo){}
