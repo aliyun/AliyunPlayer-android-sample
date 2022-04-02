@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">VideoListByPlayer</string>
+
+    <string name="player_open_after_loaded">OpenListActivty</string>
+</resources>
