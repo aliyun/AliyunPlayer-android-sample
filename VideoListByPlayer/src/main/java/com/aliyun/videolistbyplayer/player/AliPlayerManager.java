@@ -1,7 +1,6 @@
 package com.aliyun.videolistbyplayer.player;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.Surface;
 
 import com.aliyun.player.AliPlayer;
@@ -132,7 +131,6 @@ public class AliPlayerManager {
     }
 
     public void setSurface(Surface mSurface) {
-//        Log.e("testabce : ", "setRenderView: " + (mSurface == null ? "null" : mSurface.hashCode()) + " --- " + mCurrentPlayer.hashCode());
         mCurrentPlayer.setSurface(mSurface);
     }
 

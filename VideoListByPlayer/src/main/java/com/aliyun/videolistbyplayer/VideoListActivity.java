@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.SurfaceTexture;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -86,23 +85,11 @@ public class VideoListActivity extends AppCompatActivity implements CustomLayout
      * hide Cover ImageView
      */
     public void hideCoverView(){
-        mTextureView.postOnAnimation(() -> {
-            int lastVisibleItemPosition = mCustomLayoutManager.findLastVisibleItemPosition();
-            RecyclerViewAdapter.RecyclerViewHolder viewHolderForAdapterPosition = (RecyclerViewAdapter.RecyclerViewHolder) mRecyclerView.findViewHolderForAdapterPosition(lastVisibleItemPosition);
-            if(viewHolderForAdapterPosition != null){
-                viewHolderForAdapterPosition.getCoverView().setVisibility(View.INVISIBLE);
-            }
-        });
-//        mTextureView.postOnAnimationDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                int lastVisibleItemPosition = mCustomLayoutManager.findLastVisibleItemPosition();
-//                RecyclerViewAdapter.RecyclerViewHolder viewHolderForAdapterPosition = (RecyclerViewAdapter.RecyclerViewHolder) mRecyclerView.findViewHolderForAdapterPosition(lastVisibleItemPosition);
-//                if(viewHolderForAdapterPosition != null){
-//                    viewHolderForAdapterPosition.getCoverView().setVisibility(View.INVISIBLE);
-//                }
-//            }
-//        },26L);
+        int lastVisibleItemPosition = mCustomLayoutManager.findLastVisibleItemPosition();
+        RecyclerViewAdapter.RecyclerViewHolder viewHolderForAdapterPosition = (RecyclerViewAdapter.RecyclerViewHolder) mRecyclerView.findViewHolderForAdapterPosition(lastVisibleItemPosition);
+        if(viewHolderForAdapterPosition != null){
+            viewHolderForAdapterPosition.getCoverView().setVisibility(View.INVISIBLE);
+        }
     }
 
     /**
